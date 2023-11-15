@@ -1,16 +1,16 @@
 import {
   Routes,
   Route,
+  useNavigate,
+  // Navigate,
   // Link,
   // useParams,
-  // Navigate,
-  // useNavigate
 } from "react-router-dom";
 import Navigation from "./components/Navigation";
-import HomePage from "./components/HomePage";
+import HomePage from "./pages/HomePage";
 import LearnPage from "./components/LearnPage";
-import ReviewPage from "./components/ReviewPage";
-import TestPage from "./components/TestPage";
+import ReviewPage from "./pages/ReviewPage";
+import TestPage from "./pages/TestPage";
 
 function App() {
   return (

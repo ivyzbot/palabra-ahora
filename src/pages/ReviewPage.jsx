@@ -1,5 +1,5 @@
-import ReviewBoard from "./ReviewBoard";
-import ReviewCard from "./ReviewCard";
+import ReviewBoard from "../components/ReviewBoard";
+import ReviewCard from "../components/ReviewCard";
 
 export default function ReviewPage() {
   return (
