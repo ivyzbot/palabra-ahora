@@ -12,4 +12,17 @@ async function fetchAirTableWords(setResult) {
   setResult(jsonData.records);
 }
 
-export { fetchAirTableWords };
+async function updateAirTableWords(id, fields) {
+  const response = await fetch(`${AIRTABLE_BASE_URL}/main/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+    },
+    method: "PATCH",
+    body: JSON.stringify({ fields: fields }),
+  });
+
+  return response;
+}
+
+export { fetchAirTableWords, updateAirTableWords };
