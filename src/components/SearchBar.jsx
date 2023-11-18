@@ -9,6 +9,7 @@ export default function SearchBar({ setNumWords, setSearchWord }) {
   }
 
   function handleSelectSubmit() {
+    setSearchWord("");
     setNumWords(optionVal);
   }
 
@@ -17,6 +18,8 @@ export default function SearchBar({ setNumWords, setSearchWord }) {
   }
 
   function handleInputSubmit() {
+    setNumWords(0);
+    setInputVal("");
     setSearchWord(inputVal);
   }
 
@@ -30,6 +33,7 @@ export default function SearchBar({ setNumWords, setSearchWord }) {
         {/* <option value="" disabled selected>
           Number of Words
         </option> */}
+        <option value="0">Clear</option>
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="30">30</option>
