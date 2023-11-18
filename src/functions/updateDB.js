@@ -7,7 +7,6 @@ const AIRTABLE_TOKEN = import.meta.env.VITE_AIRTABLE_TOKEN;
 const DICTIONARY_BASE_URL =
   "https://www.dictionaryapi.com/api/v3/references/spanish/json";
 const DICTIONARY_TOKEN = import.meta.env.VITE_DICTIONARY_TOKEN;
-// https://www.dictionaryapi.com/api/v3/references/spanish/json/language?key=your-api-key
 
 async function fetchAllWords() {
   const response = await fetch(`${AIRTABLE_BASE_URL}/main`, {
