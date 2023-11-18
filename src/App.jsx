@@ -12,12 +12,7 @@ import LearnPage from "./pages/LearnPage";
 import ReviewPage from "./pages/ReviewPage";
 import TestPage from "./pages/TestPage";
 
-//test
-import { refreshDB } from "./functions/updateDB.js";
-// import { updateAirTableWords } from "./functions/apiCalls.js";
-
 function App() {
-  refreshDB();
   return (
     <>
       <Navigation />
