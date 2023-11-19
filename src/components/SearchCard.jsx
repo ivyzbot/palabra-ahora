@@ -14,6 +14,8 @@ export default function SearchCard({ searchWord, numWords }) {
   useEffect(() => {
     if (searchWord) {
       getWordInfo(searchWord);
+    } else {
+      setCardToDisplay(0);
     }
   }, [searchWord]);
 

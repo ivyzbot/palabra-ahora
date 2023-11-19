@@ -8,9 +8,6 @@ export default function SearchCardDB({ cardData }) {
     setCardStatus(cardData.status);
   }, [cardData]);
 
-  console.log(cardData);
-  console.log(cardStatus);
-
   function handleToggleChange() {
     setCardStatus(cardStatus === "mastered" ? "review" : "mastered");
     const newStatus = cardStatus === "mastered" ? "review" : "mastered";
