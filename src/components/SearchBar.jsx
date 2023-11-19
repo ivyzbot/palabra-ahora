@@ -30,36 +30,43 @@ export default function SearchBar({ setNumWords, setSearchWord }) {
 
   return (
     <>
-      <span>Generate Random Words</span>
-      <select
-        onChange={handleChangeSelect}
-        className="select select-info w-full max-w-xs"
-      >
-        {/* <option value="" disabled selected>
-          Number of Words
-        </option> */}
-        <option value="0">Clear</option>
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="30">30</option>
-      </select>
-      <button onClick={handleSelectSubmit} className="btn btn-outline">
-        GO
-      </button>
-      <span>Search for Your Word</span>
-      <input
-        type="text"
-        placeholder="Type here"
-        className="input input-bordered w-full max-w-xs"
-        value={inputVal}
-        onChange={handleInputChange}
-      />
-      <button onClick={handleInputSubmit} className="btn btn-outline">
-        Search
-      </button>
-      <button onClick={handleClear} className="btn btn-outline">
-        Clear
-      </button>
+      <div className="flex w-full">
+        <div className="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">
+          <span>Generate Random Words</span>
+          <select
+            onChange={handleChangeSelect}
+            className="select select-info w-1/3 select-sm max-w-xs inline"
+          >
+            <option value="0">Clear</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+          </select>
+          <button
+            onClick={handleSelectSubmit}
+            className="btn btn-sm btn-outline inline"
+          >
+            GO
+          </button>
+        </div>
+        <div className="divider divider-horizontal">OR</div>
+        <div className="grid h-20 flex-grow card bg-base-300 rounded-box place-items-center">
+          <span>Search for Your Word</span>
+          <input
+            type="text"
+            placeholder="Type here"
+            className="input input-bordered w-full max-w-xs"
+            value={inputVal}
+            onChange={handleInputChange}
+          />
+          <button onClick={handleInputSubmit} className="btn btn-outline">
+            Search
+          </button>
+          <button onClick={handleClear} className="btn btn-outline">
+            Clear
+          </button>
+        </div>
+      </div>
     </>
   );
 }
