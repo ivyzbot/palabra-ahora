@@ -52,7 +52,28 @@ async function updateAirTableWords(id, fields) {
     method: "PATCH",
     body: JSON.stringify({ fields: fields }),
   });
+  return response;
+}
 
+async function createAirTableWord(cardData) {
+  let fields = {
+    word_en: cardData.word_en,
+    word_sp: cardData.word_sp,
+    url: cardData.url,
+    type: "others",
+    status: "mastered",
+    summary: ["recGVhngHq2GLa3zL"],
+  };
+  const response = await fetch(`${AIRTABLE_BASE_URL}/main`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+    },
+    method: "POST",
+
+    body: JSON.stringify({ fields: fields }),
+  });
+  console.log(response.status);
   return response;
 }
 
@@ -101,4 +122,5 @@ export {
   fetchGiphy,
   fetchDictionaryAndGiphy,
   fetchAirTableWordsWithFilter,
+  createAirTableWord,
 };

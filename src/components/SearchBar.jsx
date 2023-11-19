@@ -23,6 +23,11 @@ export default function SearchBar({ setNumWords, setSearchWord }) {
     setSearchWord(inputVal);
   }
 
+  function handleClear() {
+    setNumWords(0);
+    setSearchWord("");
+  }
+
   return (
     <>
       <span>Generate Random Words</span>
@@ -51,6 +56,9 @@ export default function SearchBar({ setNumWords, setSearchWord }) {
       />
       <button onClick={handleInputSubmit} className="btn btn-outline">
         Search
+      </button>
+      <button onClick={handleClear} className="btn btn-outline">
+        Clear
       </button>
     </>
   );
