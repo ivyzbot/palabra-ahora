@@ -1,11 +1,20 @@
+import { useState } from "react";
+
 import ReviewBoard from "../components/ReviewBoard";
-import ReviewCard from "../components/ReviewCard";
+import ReviewCards from "../components/ReviewCards";
 
 export default function ReviewPage() {
+  const [wordStats, setWordStats] = useState({
+    all: "loading...",
+    mastered: "loading...",
+    review: "loading...",
+  });
+  const [wordFilter, setWordFilter] = useState("");
+
   return (
     <>
-      <ReviewBoard />
-      <ReviewCard />
+      <ReviewBoard wordStats={wordStats} setWordFilter={setWordFilter} />
+      <ReviewCards setWordStats={setWordStats} wordFilter={wordFilter} />
     </>
   );
 }

@@ -28,6 +28,53 @@ async function fetchAirTableWords(numWords, setResult) {
   setResult(jsonData.records);
 }
 
+async function fetchAllAirTableWords(setResult) {
+  const response = await fetch(`${AIRTABLE_BASE_URL}/main`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+    },
+  });
+  let jsonData = await response.json();
+  let arrayData = jsonData.records;
+  let offset = jsonData.offset;
+  //   console.log(offset);
+
+  let wordsDB = [];
+  arrayData.forEach((e) => {
+    let word = {};
+    word.id = e.id;
+    word.word_en = e.fields.word_en;
+    word.word_sp = e.fields.word_sp;
+    word.status = e.fields.status;
+    wordsDB.push(word);
+  });
+
+  //fetch next pages
+  while (offset) {
+    const response = await fetch(`${AIRTABLE_BASE_URL}/main?offset=${offset}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+      },
+    });
+    jsonData = await response.json();
+    arrayData = jsonData.records;
+    offset = jsonData.offset;
+
+    arrayData.forEach((e) => {
+      let word = {};
+      word.id = e.id;
+      word.word_en = e.fields.word_en;
+      word.word_sp = e.fields.word_sp;
+      word.status = e.fields.status;
+      wordsDB.push(word);
+    });
+  }
+  setResult(wordsDB);
+  //   [{id:, word_en:, word_sp:,status}]
+}
+
 async function fetchAirTableWordsWithFilter(word) {
   const response = await fetch(
     `${AIRTABLE_BASE_URL}/main?filterByFormula={word_en}="${word}"`,
@@ -123,4 +170,5 @@ export {
   fetchDictionaryAndGiphy,
   fetchAirTableWordsWithFilter,
   createAirTableWord,
+  fetchAllAirTableWords,
 };
