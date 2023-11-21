@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import { fetchAllAirTableWords } from "../functions/apiCalls";
 import ReviewCard from "./ReviewCard";
 
-export default function ReviewCards({ setWordStats, wordFilter }) {
+export default function ReviewCards({
+  setWordStats,
+  wordFilter,
+  setIsBoardLoading,
+}) {
   const [reviewWords, setReviewWords] = useState([]);
 
   //data format: [{id:, word_en:, word_sp:, status:}]
 
   useEffect(() => {
+    setIsBoardLoading(reviewWords.length === 0 ? true : false);
     fetchAllAirTableWords(setReviewWords);
   }, []);
 
@@ -44,5 +49,13 @@ export default function ReviewCards({ setWordStats, wordFilter }) {
     />
   ));
 
-  return <>{cards}</>;
+  useEffect(() => {
+    setIsBoardLoading(reviewWords.length === 0 ? true : false);
+  }, [reviewWords]);
+
+  return (
+    <>
+      <div className="grid grid-cols-5 px-48 pt-10">{cards}</div>
+    </>
+  );
 }

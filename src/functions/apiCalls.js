@@ -102,7 +102,7 @@ async function updateAirTableWords(id, fields) {
   return response;
 }
 
-async function createAirTableWord(cardData) {
+async function createAirTableWord(cardData, status) {
   let fields = {
     word_en: cardData.word_en,
     word_sp: cardData.word_sp,
@@ -120,7 +120,6 @@ async function createAirTableWord(cardData) {
 
     body: JSON.stringify({ fields: fields }),
   });
-  console.log(response.status);
   return response;
 }
 

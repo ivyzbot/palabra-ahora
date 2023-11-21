@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { fetchAirTableWords, fetchGiphy } from "../functions/apiCalls";
+import { fetchAirTableWords } from "../functions/apiCalls";
 import LearnCard from "./LearnCard";
 
 export default function RandomCards({ numWords, searchWord }) {
   const [fetchedWords, setFetchedWords] = useState([]);
   const [cards, setCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(numWords === "0" ? false : true);
     fetchAirTableWords(numWords, setFetchedWords);
   }, [numWords]);
 
@@ -15,15 +17,14 @@ export default function RandomCards({ numWords, searchWord }) {
   }, [fetchedWords]);
 
   //update
-  async function prepareCards() {
+  function prepareCards() {
     let cardsTemp = [];
     for (const word of fetchedWords) {
-      const url = await fetchGiphy(word.fields.word_en);
       const cardData = {
         word_en: word.fields.word_en,
         word_sp: word.fields.word_sp,
         status: word.fields.status,
-        url: url,
+        url: word.fields.url,
         id: word.id,
       };
 
@@ -34,13 +35,32 @@ export default function RandomCards({ numWords, searchWord }) {
       );
       cardsTemp.push(card);
     }
-
     setCards(cardsTemp);
   }
 
   const cardsToDisplay = searchWord ? null : (
-    <div className="w-96 carousel rounded-box">{cards}</div>
+    <div className="flex justify-center w-full">
+      <div className="w-96 carousel rounded-box mt-20">{cards}</div>
+    </div>
   );
 
-  return <>{cardsToDisplay}</>;
+  const loading = (
+    <div className="flex justify-center w-full w-96">
+      <div className="flex flex-col gap-4 w-96 mt-20">
+        <div className="flex gap-4 items-center">
+          <div className="flex flex-col gap-4">
+            <div className="skeleton h-12 w-72 bg-info-content"></div>
+            <div className="skeleton h-12 w-96 bg-info-content"></div>
+          </div>
+        </div>
+        <div className="skeleton h-64 w-full bg-info-content"></div>
+      </div>
+    </div>
+  );
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [cards]);
+
+  return <>{isLoading ? loading : cardsToDisplay}</>;
 }
