@@ -14,28 +14,32 @@ export default function SearchCardDB({ cardData }) {
     updateAirTableWords(cardData.id, { status: newStatus });
   }
   return (
-    <div className="indicator">
-      <span className="indicator-item badge badge-primary">Old</span>
-      <div className="card w-96 bg-base-100 shadow-x border-white border-solid border-2">
-        <div className="card-body">
-          <h2 className="card-title">{cardData.word_sp}</h2>
-          <p>{cardData.word_en}</p>
-          <div className="form-control w-52">
-            <label className="cursor-pointer label">
-              <span className="label-text">Review Later</span>
-              <input
-                type="checkbox"
-                className="toggle toggle-primary"
-                onChange={handleToggleChange}
-                id={cardData.id}
-                checked={cardStatus === "mastered" ? false : true}
-              />
-            </label>
+    <div className="flex justify-center w-full mt-20">
+      <div className="indicator">
+        <span className="indicator-item badge badge-primary">Old</span>
+        <div className="card w-96 bg-base-100 shadow-x border-white border-solid border-2">
+          <div className="card-body">
+            <h2 className="card-title text-5xl text-primary">
+              {cardData.word_sp}
+            </h2>
+            <p className="text-2xl mt-3">{cardData.word_en}</p>
+            <div className="form-control w-52 ml-auto">
+              <label className="cursor-pointer label">
+                <span className="text-base ml-auto mr-5">Review Later</span>
+                <input
+                  type="checkbox"
+                  className="toggle toggle-warning"
+                  onChange={handleToggleChange}
+                  id={cardData.id}
+                  checked={cardStatus === "mastered" ? false : true}
+                />
+              </label>
+            </div>
           </div>
+          <figure className="pb-3">
+            <img src={cardData.url} alt={cardData.word_en} />
+          </figure>
         </div>
-        <figure className="pb-3">
-          <img src={cardData.url} alt={cardData.word_en} />
-        </figure>
       </div>
     </div>
   );

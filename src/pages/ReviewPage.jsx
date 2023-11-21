@@ -5,16 +5,25 @@ import ReviewCards from "../components/ReviewCards";
 
 export default function ReviewPage() {
   const [wordStats, setWordStats] = useState({
-    all: "loading...",
-    mastered: "loading...",
-    review: "loading...",
+    all: null,
+    mastered: null,
+    review: null,
   });
   const [wordFilter, setWordFilter] = useState("");
+  const [isBoardLoading, setIsBoardLoading] = useState(true);
 
   return (
     <>
-      <ReviewBoard wordStats={wordStats} setWordFilter={setWordFilter} />
-      <ReviewCards setWordStats={setWordStats} wordFilter={wordFilter} />
+      <ReviewBoard
+        wordStats={wordStats}
+        setWordFilter={setWordFilter}
+        isBoardLoading={isBoardLoading}
+      />
+      <ReviewCards
+        setWordStats={setWordStats}
+        wordFilter={wordFilter}
+        setIsBoardLoading={setIsBoardLoading}
+      />
     </>
   );
 }
