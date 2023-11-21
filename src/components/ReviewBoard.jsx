@@ -3,7 +3,7 @@ export default function ReviewBoard({
   setWordFilter,
   isBoardLoading,
 }) {
-  console.log(isBoardLoading);
+  // console.log(isBoardLoading);
   function handleButtonClick(evt) {
     setWordFilter(evt.target.value);
   }

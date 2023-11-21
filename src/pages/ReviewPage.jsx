@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, createContext } from "react";
 
 import ReviewBoard from "../components/ReviewBoard";
+import ReviewMode from "../components/ReviewMode";
 import ReviewCards from "../components/ReviewCards";
+
+export const Context = createContext();
 
 export default function ReviewPage() {
   const [wordStats, setWordStats] = useState({
@@ -11,6 +14,7 @@ export default function ReviewPage() {
   });
   const [wordFilter, setWordFilter] = useState("");
   const [isBoardLoading, setIsBoardLoading] = useState(true);
+  const [language, setLanguage] = useState("EN");
 
   return (
     <>
@@ -19,11 +23,14 @@ export default function ReviewPage() {
         setWordFilter={setWordFilter}
         isBoardLoading={isBoardLoading}
       />
-      <ReviewCards
-        setWordStats={setWordStats}
-        wordFilter={wordFilter}
-        setIsBoardLoading={setIsBoardLoading}
-      />
+      <Context.Provider value={{ language, setLanguage }}>
+        <ReviewMode />
+        <ReviewCards
+          setWordStats={setWordStats}
+          wordFilter={wordFilter}
+          setIsBoardLoading={setIsBoardLoading}
+        />
+      </Context.Provider>
     </>
   );
 }

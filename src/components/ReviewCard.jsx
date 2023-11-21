@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Context } from "../pages/ReviewPage";
 import { updateAirTableWords } from "../functions/apiCalls";
 
 export default function ReviewCard({
@@ -8,6 +9,7 @@ export default function ReviewCard({
   status,
   updateWordStatus,
 }) {
+  const contextData = useContext(Context);
   const [cardStatus, setCardStatus] = useState(status);
 
   function handleToggleChange() {
@@ -24,12 +26,12 @@ export default function ReviewCard({
           <div className="flip-card-inner">
             <div className="flip-card-front flex items-center justify-center bg-neutral">
               <h1 className="text-2xl font-bold text-neutral-content">
-                {word_en}
+                {contextData.language === "EN" ? word_en : word_sp}
               </h1>
             </div>
             <div className="flip-card-back flex items-center justify-center bg-neutral-content">
               <h1 className="text-2xl font-bold text-primary-content">
-                {word_sp}
+                {contextData.language === "EN" ? word_sp : word_en}
               </h1>
             </div>
           </div>
