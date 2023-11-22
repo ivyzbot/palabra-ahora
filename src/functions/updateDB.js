@@ -1,5 +1,7 @@
+// functions to update Airtable DB. Not run in live
+
 import cleanWord from "./cleanWord";
-import { updateAirTableWords } from "./apiCalls";
+import { updateAirTableWords, fetchGiphy } from "./apiCalls";
 
 const AIRTABLE_BASE_URL = "https://api.airtable.com/v0/app9Ylybbbvc5URfR";
 const AIRTABLE_TOKEN = import.meta.env.VITE_AIRTABLE_TOKEN;
@@ -95,4 +97,15 @@ async function refreshDB() {
   }
 }
 
-export { refreshDB };
+async function updateAirTableGiphyLink() {
+  const words = await fetchAllWords();
+  // [{id:xxx, word_en:xxx}]
+  for (const word of words) {
+    const url = await fetchGiphy(word.word_en);
+    const field = { url: url };
+    const response = await updateAirTableWords(word.id, field);
+    console.log(response);
+  }
+}
+
+export { refreshDB, updateAirTableGiphyLink };

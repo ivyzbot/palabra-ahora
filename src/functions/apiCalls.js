@@ -28,6 +28,39 @@ async function fetchAirTableWords(numWords, setResult) {
   setResult(jsonData.records);
 }
 
+async function fetchAirtableWordsRandom(numWords, setResult) {
+  const response = await fetch(`${AIRTABLE_BASE_URL}/summary`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+    },
+  });
+
+  const jsonData = await response.json();
+  const records = jsonData.records[0].fields.records;
+  const idxArray = Array.from(Array(records).keys());
+  const shuffledArray = idxArray.sort(() => 0.5 - Math.random());
+  const selectedIdx = shuffledArray.slice(0, numWords);
+
+  let words = [];
+  for (let i = 0; i < selectedIdx.length; i++) {
+    const response = await fetch(
+      `${AIRTABLE_BASE_URL}/main?filterByFormula={SN}="${selectedIdx[i] + 1}"`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+        },
+      }
+    );
+    const jsonData = await response.json();
+    words.push(jsonData.records[0]);
+  }
+
+  console.log(words);
+  setResult(words);
+}
+
 async function fetchAllAirTableWords(setResult) {
   const response = await fetch(`${AIRTABLE_BASE_URL}/main`, {
     headers: {
@@ -170,4 +203,5 @@ export {
   fetchAirTableWordsWithFilter,
   createAirTableWord,
   fetchAllAirTableWords,
+  fetchAirtableWordsRandom,
 };

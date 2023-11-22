@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchAirTableWords } from "../functions/apiCalls";
+import { fetchAirtableWordsRandom } from "../functions/apiCalls";
 import LearnCard from "./LearnCard";
 
 export default function RandomCards({ numWords, searchWord }) {
@@ -9,7 +9,11 @@ export default function RandomCards({ numWords, searchWord }) {
 
   useEffect(() => {
     setIsLoading(numWords === "0" ? false : true);
-    fetchAirTableWords(numWords, setFetchedWords);
+    if (numWords && numWords !== "0") {
+      fetchAirtableWordsRandom(numWords, setFetchedWords);
+    } else {
+      setFetchedWords([]);
+    }
   }, [numWords]);
 
   useEffect(() => {

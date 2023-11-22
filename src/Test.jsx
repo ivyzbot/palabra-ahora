@@ -1,7 +1,9 @@
-import { fetchAirTableWordsWithFilter } from "./functions/apiCalls";
+import { useState } from "react";
+import { fetchAirtableWordsRandom } from "./functions/apiCalls";
+import { updateAirTableGiphyLink } from "./functions/updateDB";
 
 function Test() {
-  // fetchAirTableWordsWithFilter("apple2");
+  // updateAirTableGiphyLink();
   return (
     <>
       <div>Test Page</div>
