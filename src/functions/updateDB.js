@@ -58,7 +58,7 @@ async function fetchAllWords() {
 }
 
 async function fetchSpanish(word) {
-  console.log(word);
+  // console.log(word);
   const response = await fetch(
     `${DICTIONARY_BASE_URL}/${word}?key=${DICTIONARY_TOKEN}`
   );
@@ -87,13 +87,13 @@ async function fetchSpanish(word) {
 
 async function refreshDB() {
   const wordsDB = await fetchAllWords();
-  console.log(wordsDB.length);
+  // console.log(wordsDB.length);
   let cnt = 0;
   for (const word of wordsDB) {
     const translatedDB = await fetchSpanish(word.word_en);
     cnt += 1;
     updateAirTableWords(word.id, translatedDB);
-    console.log(cnt);
+    // console.log(cnt);
   }
 }
 
@@ -104,7 +104,7 @@ async function updateAirTableGiphyLink() {
     const url = await fetchGiphy(word.word_en);
     const field = { url: url };
     const response = await updateAirTableWords(word.id, field);
-    console.log(response);
+    // console.log(response);
   }
 }
 
