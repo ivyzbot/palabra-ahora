@@ -57,7 +57,7 @@ async function fetchAirtableWordsRandom(numWords, setResult) {
     words.push(jsonData.records[0]);
   }
 
-  console.log(words);
+  // console.log(words);
   setResult(words);
 }
 
