@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { LETTERS } from "../assets/consts";
 import Sqaure from "./Sqaure";
 
@@ -6,6 +6,8 @@ export default function Board({
   words,
   selectedLetters,
   setSelectedLetters,
+  setErrorMsg,
+  errorMsg,
   setWordsLocation,
   grid,
   setGrid,
@@ -22,7 +24,10 @@ export default function Board({
       const maxIterations = 1000;
       let iterations = 0;
       if (wordLength > 10) {
-        console.log(
+        // console.log(
+        //   `Word length must not exceed 10 characters. Word: ${word.word}`
+        // );
+        setErrorMsg(
           `Word length must not exceed 10 characters. Word: ${word.word}`
         );
         return;
@@ -108,7 +113,7 @@ export default function Board({
 
   useEffect(() => {
     generateBoard(words, LETTERS);
-  }, []);
+  }, [words]);
 
   useEffect(() => {
     // console.log(selectedLetters);
@@ -117,23 +122,26 @@ export default function Board({
   return (
     <>
       <div className="w-full max-w-full flex flex-col items-center justify-center">
-        {grid.map((row, rowIndex) => (
-          <div
-            key={rowIndex}
-            className="flex flex-row items-center justify-center max-w-full"
-          >
-            {row.map((letter, colIndex) => (
-              <Sqaure
-                key={colIndex}
-                index={[rowIndex, colIndex]}
-                letter={letter.letter}
-                islocked={letter.islocked}
-                selectedLetters={selectedLetters}
-                setSelectedLetters={setSelectedLetters}
-              />
+        {errorMsg
+          ? errorMsg
+          : grid.map((row, rowIndex) => (
+              <div
+                key={rowIndex}
+                className="flex flex-row items-center justify-center max-w-full"
+              >
+                {row.map((letter, colIndex) => (
+                  <Sqaure
+                    key={colIndex}
+                    index={[rowIndex, colIndex]}
+                    letter={letter.letter}
+                    islocked={letter.islocked}
+                    selectedLetters={selectedLetters}
+                    setSelectedLetters={setSelectedLetters}
+                    words={words}
+                  />
+                ))}
+              </div>
             ))}
-          </div>
-        ))}
       </div>
     </>
   );
