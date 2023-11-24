@@ -30,7 +30,76 @@ Palabra Ahora, or **Word Now** in English, is a platform for Spanish enthusiasts
     - Giphy API: https://developers.giphy.com/explorer/
     - AirTable: https://airtable.com/app9Ylybbbvc5URfR/tblrB9qpZxh0xf2ar/viwWbJ83xzEhagn8H?blocks=hide
 
-## Key challenges:
+## Code Snippet
+1) Example of CRUD operations using AirTable
+- Fetch:
+```Javascript
+async function fetchAirtableWordsRandom(numWords, setResult) {
+  const response = await fetch(`${AIRTABLE_BASE_URL}/summary`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+    },
+  });
+
+  const jsonData = await response.json();
+  const records = jsonData.records[0].fields.records;
+  const idxArray = Array.from(Array(records).keys());
+  const shuffledArray = idxArray.sort(() => 0.5 - Math.random());
+  const selectedIdx = shuffledArray.slice(0, numWords);
+
+  let words = [];
+  for (let i = 0; i < selectedIdx.length; i++) {
+    const response = await fetch(
+      `${AIRTABLE_BASE_URL}/main?filterByFormula={SN}="${selectedIdx[i] + 1}"`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+        },
+      }
+    );
+    const jsonData = await response.json();
+    words.push(jsonData.records[0]);
+  }
+
+  // console.log(words);
+  setResult(words);
+  return words;
+}
+```
+
+- PATCH
+```Javascript
+async function updateAirTableWords(id, fields) {
+  const response = await fetch(`${AIRTABLE_BASE_URL}/main/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+    },
+    method: "PATCH",
+    body: JSON.stringify({ fields: fields }),
+  });
+  return response;
+}
+```
+
+3) useState and lifting state
+```JavaScript
+export default function LearnPage() {
+  const [numWords, setNumWords] = useState(0);
+  const [searchWord, setSearchWord] = useState("");
+  return (
+    <>
+      <SearchBar setNumWords={setNumWords} setSearchWord={setSearchWord} />
+      <RandomCards numWords={numWords} searchWord={searchWord} />
+      <SearchCard searchWord={searchWord} numWords={numWords} />
+    </>
+  );
+}
+```
+
+## Key challenges
 - Data cleaning involved in MW Dictionary API
 - Logics to randomly select words from AirTable
 
@@ -39,4 +108,4 @@ Palabra Ahora, or **Word Now** in English, is a platform for Spanish enthusiasts
 - New feature to allow users to delete words
 
 ## Reference
-Searchword board generated logic is inspired by https://github.com/umairayub79/WordSearchGenerator
+Searchword board generating logic is inspired by https://github.com/umairayub79/WordSearchGenerator
