@@ -6,8 +6,13 @@ export default function Sqaure({
   selectedLetters,
   setSelectedLetters,
   islocked,
+  words,
 }) {
   const [isSelected, setIsSelected] = useState(false);
+
+  useEffect(() => {
+    setIsSelected(false);
+  }, [words]);
 
   function handleSqaureClick() {
     if (!islocked) {

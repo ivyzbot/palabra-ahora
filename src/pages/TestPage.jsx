@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import Board from "../components/Board";
-import { json } from "react-router";
+import { fetchAirtableWordsRandom } from "../functions/apiCalls";
 
 export default function LearnPage() {
-  const [words, setWords] = useState([
-    { word: "casa", islocked: false },
-    { word: "hermano", islocked: false },
-    { word: "hijo", islocked: false },
-  ]);
+  //change to useContext
+  const [words, setWords] = useState([]);
   const [wordsLocation, setWordsLocation] = useState([]);
   const [selectedLetters, setSelectedLetters] = useState([]);
   const [grid, setGrid] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  // console.log(words);
   //[[[letter:xxx, islocked:xxx],[],[],],[],[]...]
 
   useEffect(() => {
@@ -34,6 +34,10 @@ export default function LearnPage() {
   function checkResult() {
     for (const wordLocation of wordsLocation) {
       //[[rowIdx, colIdx],[],[]]
+      console.log("selected:");
+      console.log(JSON.stringify(selectedLetters.sort(compareFn)));
+      console.log("answer:");
+      console.log(JSON.stringify(wordLocation.sort(compareFn)));
 
       if (
         JSON.stringify(selectedLetters.sort(compareFn)) ===
@@ -44,29 +48,50 @@ export default function LearnPage() {
           newGrid[l[0]][l[1]].islocked = true;
         }
         // console.log(newGrid);
-        console.log("correct");
+        // console.log("correct");
         setSelectedLetters([]);
         setGrid(newGrid);
         return;
       }
     }
-    console.log("wrong");
+    // console.log("wrong");
+  }
+
+  async function fetchWords(numWords, setResult) {
+    const result = await fetchAirtableWordsRandom(numWords, () => {});
+    const newWords = result.map((record) => ({
+      word: record.fields.word_sp,
+      islocked: false,
+    }));
+    console.log(newWords);
+    setResult(newWords);
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <button className="btn btn-accent my-10">Generate Board</button>
-      <Board
-        words={words}
-        selectedLetters={selectedLetters}
-        setSelectedLetters={setSelectedLetters}
-        setWordsLocation={setWordsLocation}
-        grid={grid}
-        setGrid={setGrid}
-      />
-      <button onClick={checkResult} className="btn btn-accent my-10">
-        Check
-      </button>
-    </div>
+    <>
+      <div className="flex flex-col items-center justify-center">
+        <button
+          onClick={() => {
+            fetchWords(3, setWords);
+          }}
+          className="btn btn-accent my-10"
+        >
+          Generate Board
+        </button>
+        <Board
+          words={words}
+          selectedLetters={selectedLetters}
+          setSelectedLetters={setSelectedLetters}
+          errorMsg={errorMsg}
+          setErrorMsg={setErrorMsg}
+          setWordsLocation={setWordsLocation}
+          grid={grid}
+          setGrid={setGrid}
+        />
+        <button onClick={checkResult} className="btn btn-accent my-10">
+          Check
+        </button>
+      </div>
+    </>
   );
 }
